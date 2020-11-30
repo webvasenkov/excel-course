@@ -1,0 +1,17 @@
+1. Webpack:
+- import/exports;
+- babel;
+- scss;
+- eslint;
+- two modes:
+  - dev:
+    - dev server - для отображение изменений в браузере + hot reload style;
+    - source map - исходные карты, для css и дебага;
+    - eslint - чистота кода, единый стиль;
+    - not minified JS & CSS - для понимания кода, но в prod монифицируем.
+  - prod:
+    - minified code.
+
+2. Git:
+- development - 1.0.2
+- production - 1.0.0
