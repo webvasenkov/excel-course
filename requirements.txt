@@ -1,7 +1,7 @@
 1. Webpack:
-- import/exports; +
-- babel; +
-- scss; +
+- import/exports;
+- babel;
+- scss;
 - eslint;
 - two modes:
   - development:
