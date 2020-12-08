@@ -28,6 +28,7 @@ const config = {
         extensions: ['.js', '.scss'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
+            '@core': path.resolve(__dirname, 'src/core'),
             '@scss': path.resolve(__dirname, 'src/scss')
         }
     },
