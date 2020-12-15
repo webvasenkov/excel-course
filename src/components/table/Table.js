@@ -3,6 +3,7 @@ import {createTable} from '@/components/table/table.template'
 import {shouldResize} from '@/components/table/table.utils'
 import {resizeHandler} from '@/components/table/table.resize'
 
+
 class Table extends ExcelComponent {
     static className = 'excel__table'
 
