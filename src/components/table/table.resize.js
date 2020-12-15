@@ -1,0 +1,54 @@
+import {$} from "@core/DOM"
+
+export function resizeHandler(event) {
+        const $resizer = $(event.target)
+        const $parent = $resizer.closest('[data-type="resizable"]')
+        const type = $resizer.data.resize
+        const coords = $parent.coords
+
+        type === 'col'
+            ? $resizer.$el.classList.add('excel__table-col-resize_selected')
+            : $resizer.$el.classList.add('excel__table-row-resize_selected')
+
+        $resizer.css({opacity: 1})
+        let value
+
+        document.onmousemove = (ev) => {
+            value = getCurrentCoords(ev, type, coords, $resizer)
+        }
+
+        document.onmouseup = () => {
+            setCurrentCoords.call(this, type, $parent, value, $resizer)
+            document.onmousemove = null
+            document.onmouseup = null
+        }
+}
+
+function getCurrentCoords(ev, type, coords, $resizer) {
+    if (type === 'col') {
+        const delta = ev.pageX - coords.right
+        $resizer.css({right: -delta + 'px'})
+        return coords.width + delta
+    } else {
+        const delta = ev.pageY - coords.bottom
+        $resizer.css({bottom: -delta + 'px'})
+        return coords.height + delta
+    }
+}
+function setCurrentCoords (type, $parent, value, $resizer) {
+    let side
+    if (type === 'col') {
+        $parent.css({width: value + 'px'})
+        this.$root.findAll(`[data-cell="${$parent.data.col}"]`)
+            .forEach(cell => $(cell).css({width: value + 'px'}))
+        side = 'right'
+    } else {
+        $parent.css({height: value + 'px'})
+        side = 'bottom'
+    }
+
+    $resizer.css({
+        opacity: 0,
+        [side]: '-2px'
+    })
+}
