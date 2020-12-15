@@ -4,23 +4,30 @@ const CODES = {
 }
 
 function createRow(info, data) {
+    const resizer = info ? `<span class="excel__table-row-resize" data-resize="row"></span>` : ''
     return `
-    <div class="excel__table-row">
-         <div class="excel__table-row-info">${info}</div>
+    <div class="excel__table-row" data-type="resizable">
+         <div class="excel__table-row-info">
+            ${info}
+            ${resizer}
+         </div>
          <div class="excel__table-row-data">${data}</div>
     </div>
      `
 }
 
-function toColl(col) {
+function toColl(col, index) {
     return `
-    <div class="excel__table-col">${col}</div>
+    <div class="excel__table-col" data-type="resizable" data-col="${index}">
+        ${col}
+        <span class="excel__table-col-resize" data-resize="col"></span>
+    </div>
     `
 }
 
-function toCell() {
+function toCell(_, index) {
     return `
-     <div class="excel__table-cell" contenteditable spellcheck="false"></div>
+     <div class="excel__table-cell" contenteditable spellcheck="false" data-cell=${index}></div>
     `
 }
 
