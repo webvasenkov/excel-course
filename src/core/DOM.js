@@ -41,6 +41,30 @@ class DOM {
         this.$el.removeEventListener(eventType, callback)
     }
 
+    closest(selector) {
+        return $(this.$el.closest(selector))
+    }
+
+    css(styles) {
+        if (Object.keys(styles).length) {
+            Object
+                .keys(styles)
+                .forEach(key => this.$el.style[key] = styles[key])
+        }
+        return this
+    }
+
+    findAll(selector) {
+        return this.$el.querySelectorAll(selector)
+    }
+
+    get coords() {
+        return this.$el.getBoundingClientRect()
+    }
+
+    get data() {
+        return this.$el.dataset
+    }
 }
 
 export function $(selector) {
@@ -54,6 +78,5 @@ $.create = (tagName, className = '') => {
     }
 
     return $(el)
-
 }
 
