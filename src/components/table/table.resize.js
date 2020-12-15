@@ -1,7 +1,6 @@
 import {$} from "@core/DOM"
 
 export function resizeHandler(event) {
-    if (event.target.dataset.resize) {
         const $resizer = $(event.target)
         const $parent = $resizer.closest('[data-type="resizable"]')
         const type = $resizer.data.resize
@@ -23,7 +22,6 @@ export function resizeHandler(event) {
             document.onmousemove = null
             document.onmouseup = null
         }
-    }
 }
 
 function getCurrentCoords(ev, type, coords, $resizer) {
