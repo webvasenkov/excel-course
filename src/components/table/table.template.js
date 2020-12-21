@@ -25,10 +25,10 @@ function toColl(col, index) {
     `
 }
 
-function toCell(_, index) {
-    return `
-     <div class="excel__table-cell" contenteditable spellcheck="false" data-cell=${index}></div>
-    `
+function toCell(indexRow) {
+    return function col(_, indexCol) {
+        return `<div class="excel__table-cell" contenteditable spellcheck="false" data-col=${indexCol} data-id=${indexRow}:${indexCol}></div>`
+    }
 }
 
 function toChar(_, code) {
@@ -37,6 +37,7 @@ function toChar(_, code) {
 
 export function createTable(rowsCount = 5) {
     const colsCount = CODES.Z - CODES.A + 1
+    console.log(colsCount)
 
     const rows = []
     const cols = new Array(colsCount)
@@ -45,15 +46,15 @@ export function createTable(rowsCount = 5) {
         .map(toColl)
         .join('')
 
-    const cell = new Array(colsCount)
-        .fill('')
-        .map(toCell)
-        .join('')
-
     rows.push(createRow('', cols))
 
-    for (let i = 1; i < rowsCount + 1; i++) {
-        rows.push(createRow(i, cell))
+    for (let i = 0; i < rowsCount; i++) {
+        const cell = new Array(colsCount)
+            .fill('')
+            .map(toCell(i))
+            .join('')
+
+        rows.push(createRow(i + 1, cell))
     }
 
     return rows.join('')
