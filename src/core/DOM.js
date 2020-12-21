@@ -119,4 +119,3 @@ $.create = (tagName, className = '') => {
 
     return $(el)
 }
-
