@@ -43,7 +43,3 @@ export function targetSelector(key, {row, col}) {
 
     return `[data-id="${row}:${col}"]`
 }
-
-
-
-
