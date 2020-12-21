@@ -6,12 +6,22 @@ class DOM {
     }
 
     html(html) {
-        if(typeof html === 'string') {
+        if (typeof html === 'string') {
             this.$el.innerHTML = html
             return this
         }
         return this.$el.outerHTML.trim()
+    }
 
+    text(text) {
+       if (typeof text === 'string') {
+           this.$el.textContent = text
+           return this
+       }
+       if (this.$el.tagName === 'Input') {
+           return this.$el.value.trim()
+       }
+       return this.$el.textContent.trim()
     }
 
     clear() {
@@ -58,12 +68,40 @@ class DOM {
         return this.$el.querySelectorAll(selector)
     }
 
+    find(selector) {
+        return $(this.$el.querySelector(selector))
+    }
+
     get coords() {
         return this.$el.getBoundingClientRect()
     }
 
     get data() {
         return this.$el.dataset
+    }
+
+    addClass(className) {
+        return this.$el.classList.add(className)
+    }
+
+    removeClass(className) {
+        return this.$el.classList.remove(className)
+    }
+
+    id(parse) {
+        if (parse) {
+            const parse = this.id().split(":")
+            return {
+                row: +parse[0],
+                col: +parse[1],
+            }
+        }
+        return this.$el.dataset.id
+    }
+
+    focus() {
+        this.$el.focus()
+        return this
     }
 }
 

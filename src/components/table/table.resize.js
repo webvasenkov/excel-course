@@ -39,8 +39,8 @@ function setCurrentCoords (type, $parent, value, $resizer) {
     let side
     if (type === 'col') {
         $parent.css({width: value + 'px'})
-        this.$root.findAll(`[data-cell="${$parent.data.col}"]`)
-            .forEach(cell => $(cell).css({width: value + 'px'}))
+        this.$root.findAll(`[data-col="${$parent.data.col}"]`)
+            .forEach(col => $(col).css({width: value + 'px'}))
         side = 'right'
     } else {
         $parent.css({height: value + 'px'})
