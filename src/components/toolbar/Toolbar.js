@@ -1,39 +1,49 @@
-import {ExcelComponent} from "@core/ExcelComponent";
+import {ExcelStateComponent} from "@core/ExcelStateComponent";
+import {createToolbar} from './toolbar.template'
+import {defaultStyles} from '@/constants'
+import {changeStyles} from '@/redux/actions'
+import {$} from '@core/DOM'
 
-export class Toolbar extends ExcelComponent {
+export class Toolbar extends ExcelStateComponent {
     static className = 'excel__toolbar'
 
     constructor($root, options) {
         super($root, {
             name: 'Toolbar',
+            listeners: ['click'],
+            subscribers: ['currentStyles'],
             ...options
         })
     }
 
-    toHTML() {
-        return `
-        <div class="excel__toolbar-section">
-            <div class="excel__toolbar-btn">
-                <span class="material-icons">format_align_left</span>
-            </div>
-            <div class="excel__toolbar-btn">
-                <span class="material-icons">format_align_center</span>
-            </div>
-            <div class="excel__toolbar-btn">
-                <span class="material-icons">format_align_right</span>
-            </div>
-        </div>
-        <div class="excel__toolbar-section">
-            <div class="excel__toolbar-btn">
-                <span class="material-icons">format_bold</span>
-            </div>
-            <div class="excel__toolbar-btn">
-                <span class="material-icons">format_italic</span>
-            </div>
-            <div class="excel__toolbar-btn">
-                <span class="material-icons">format_underline</span>
-            </div>
-        </div>
-        `
+    prepare() {
+        const saveStyles = this.store.getState().stylesState['0:0']
+        this.initState(saveStyles || defaultStyles)
     }
+
+    init() {
+        super.init()
+    }
+
+    get template() {
+        return createToolbar(this.state)
+    }
+
+    toHTML() {
+        return this.template
+    }
+
+    onClick(event) {
+        const $target = $(event.target)
+        if($target.data.type === 'button') {
+            const value = JSON.parse($target.data.value)
+            this.$emmit('toolbar_style', value)
+            this.$dispatch(changeStyles(value))
+        }
+    }
+
+    storeChanged({currentStyles: styles}) {
+        this.setState(styles)
+    }
+
 }

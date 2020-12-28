@@ -1,6 +1,7 @@
 import {$} from "@core/DOM"
 
-export function resizeHandler(event) {
+export function resizeHandler(event, $root) {
+    return new Promise(resolve => {
         const $resizer = $(event.target)
         const $parent = $resizer.closest('[data-type="resizable"]')
         const type = $resizer.data.resize
@@ -18,10 +19,18 @@ export function resizeHandler(event) {
         }
 
         document.onmouseup = () => {
-            setCurrentCoords.call(this, type, $parent, value, $resizer)
+            setCurrentCoords(type, $parent, value, $resizer, $root)
+
+            resolve({
+                is: type,
+                id: $parent.data[type],
+                value
+            })
+
             document.onmousemove = null
             document.onmouseup = null
         }
+    })
 }
 
 function getCurrentCoords(ev, type, coords, $resizer) {
@@ -35,11 +44,12 @@ function getCurrentCoords(ev, type, coords, $resizer) {
         return coords.height + delta
     }
 }
-function setCurrentCoords (type, $parent, value, $resizer) {
+
+function setCurrentCoords(type, $parent, value, $resizer, $root) {
     let side
     if (type === 'col') {
         $parent.css({width: value + 'px'})
-        this.$root.findAll(`[data-col="${$parent.data.col}"]`)
+        $root.findAll(`[data-col="${$parent.data.col}"]`)
             .forEach(col => $(col).css({width: value + 'px'}))
         side = 'right'
     } else {

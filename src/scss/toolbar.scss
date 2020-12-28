@@ -13,16 +13,7 @@
   display: flex;
   align-items: center;
 
-  &-section {
-    display: flex;
-    border-right: 1px solid $border-color;
-
-    &:last-child {
-      border-right: none;
-    }
-  }
-
   &-btn {
-    @include button(green)
+    @include button(#4d7fff)
   }
 }
