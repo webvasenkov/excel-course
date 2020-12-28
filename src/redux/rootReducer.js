@@ -32,5 +32,6 @@ export function rootReducer(state, action) {
 
 function tableValue(field, state, action) {
     const value = state[field] || {}
-    return value[action.data.id] = action.data.value
+    value[action.data.id] = action.data.value
+    return value
 }
