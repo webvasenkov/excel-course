@@ -14,14 +14,22 @@ class DOM {
     }
 
     text(text) {
-       if (typeof text === 'string') {
-           this.$el.textContent = text
-           return this
-       }
-       if (this.$el.tagName === 'Input') {
-           return this.$el.value.trim()
-       }
-       return this.$el.textContent.trim()
+        if (typeof text !== 'undefined') {
+            this.$el.textContent = text
+            return this
+        }
+        if (this.$el.tagName.toLowerCase() === 'input') {
+            return this.$el.value.trim()
+        }
+        return this.$el.textContent.trim()
+    }
+
+    setAttr(name, value) {
+        return this.$el.setAttribute(name, value)
+    }
+
+    getAttr(name) {
+        return this.$el.getAttribute(name) || ''
     }
 
     clear() {
@@ -62,6 +70,13 @@ class DOM {
                 .forEach(key => this.$el.style[key] = styles[key])
         }
         return this
+    }
+
+    getStyles(styles) {
+        return styles.reduce((res, key) => {
+            res[key] = this.$el.style[key]
+            return res
+        }, {})
     }
 
     findAll(selector) {
