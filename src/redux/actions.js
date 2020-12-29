@@ -1,6 +1,12 @@
-import {TABLE_RESIZE, TABLE_DATA, CHANGE_STYLES, APPLY_STYLES, CHANGE_NAME} from './types'
+import {
+    TABLE_RESIZE,
+    TABLE_DATA,
+    CHANGE_STYLES,
+    APPLY_STYLES,
+    CHANGE_NAME,
+    DATE_OPEN
+} from './types'
 
-// action creators
 export function tableResize(data) {
     return {type: TABLE_RESIZE, data}
 }
@@ -14,10 +20,13 @@ export function changeStyles(data) {
 }
 
 export function applyStyle(data) {
-    console.log(data)
     return {type: APPLY_STYLES, data}
 }
 
 export function changeName(data) {
     return {type: CHANGE_NAME, data}
+}
+
+export function dateOpen() {
+    return {type: DATE_OPEN}
 }

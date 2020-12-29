@@ -5,4 +5,4 @@ export const defaultStyles = {
     textDecoration: 'none'
 }
 
-export const defaultName = 'Название таблицы'
+export const defaultName = 'Table name'

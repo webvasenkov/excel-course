@@ -3,10 +3,14 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require('webpack')
 
-const filename = (ext, isDev = false) => (isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`)
-const jsLoaders = (loader) => {
-    const loaders = ['babel-loader']
+const filename = (ext, mode) => (mode === 'development' ? `[name].${ext}` : `[name].[contenthash].${ext}`)
+
+const jsLoaders = (mode, loader = '') => {
+    const loaders = mode === 'development'
+        ? ['babel-loader', 'eslint-loader']
+        : ['babel-loader']
 
     if (loader) {
         loaders.push(loader)
@@ -15,12 +19,14 @@ const jsLoaders = (loader) => {
     return loaders
 }
 
-const config = {
+const setMode = (argv) => argv['mode']
+
+const config = (mode) => ({
     context: path.resolve(__dirname, 'src'),
     entry: './index.js',
 
     output: {
-        filename: filename('js'),
+        filename: filename('js', mode),
         path: path.resolve(__dirname, 'dist')
     },
 
@@ -39,12 +45,15 @@ const config = {
             template: './index.html'
         }),
         new MiniCSSExtractPlugin({
-            filename: filename('css')
+            filename: filename('css', mode)
         }),
         new CopyWebpackPlugin({
             patterns: [
                 {from: './favicon.ico', to: path.resolve(__dirname, 'dist')}
             ]
+        }),
+        new webpack.DefinePlugin({
+            MODE_ON: JSON.stringify(mode)
         })
     ],
 
@@ -57,25 +66,24 @@ const config = {
             {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
-                use: jsLoaders()
+                use: jsLoaders(mode)
             }
         ]
     }
-}
+})
 
 module.exports = (env, argv) => {
-    if (argv.mode === 'development') {
-        config.devtool = 'source-map'
-        config.target = 'web'
-        config.devServer = {
+    const mode = setMode(argv)
+    const conf = config(mode)
+
+    if (mode === 'development') {
+        conf.devtool = 'source-map'
+        conf.target = 'web'
+        conf.devServer = {
             open: true,
             port: 3000,
         }
-        config.output.filename = filename('js', true)
-        config.plugins
-            .filter((plugin) => plugin instanceof MiniCSSExtractPlugin)[0].options.filename = filename('css', true)
-        config.module.rules[1].use = jsLoaders('eslint-loader')
     }
 
-    return config
+    return conf
 }
