@@ -52,3 +52,7 @@ export function debounce(fn, wait) {
         }, wait)
     }
 }
+
+export function preventDefault(e) {
+    e.preventDefault()
+}

@@ -1,6 +1,7 @@
 import {ExcelComponent} from '@core/ExcelComponent'
 import {changeName} from '@/redux/actions'
 import {createHeader} from '@/components/header/header.template'
+import {ActiveRoute} from '@core/routes/ActiveRoute'
 import {$} from '@core/DOM'
 
 export class Header extends ExcelComponent {
@@ -9,7 +10,7 @@ export class Header extends ExcelComponent {
     constructor($root, options) {
         super($root, {
             name: 'Header',
-            listeners: ['input'],
+            listeners: ['input', 'click'],
             ...options
         })
     }
@@ -22,6 +23,19 @@ export class Header extends ExcelComponent {
         const $target = $(event.target)
         const name = $target.text()
         this.$dispatch(changeName(name))
+    }
+
+    onClick(event) {
+        const $target = $(event.target)
+        if ($target.data.button === 'delete') {
+            const sure = confirm('Are you sure you want to delete the table?')
+            if (sure) {
+                localStorage.removeItem(`excel:${ActiveRoute.param}`)
+                ActiveRoute.navigate('#dashboard')
+            }
+        } else if ($target.data.button === 'exit') {
+            ActiveRoute.navigate('#dashboard')
+        }
     }
 
     toHTML() {

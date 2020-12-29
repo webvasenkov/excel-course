@@ -51,6 +51,27 @@ class DOM {
         return this
     }
 
+    hasChild() {
+        return this.$el.hasChildNodes
+    }
+
+    children(node) {
+        if(node) {
+            return $(this.children()[0])
+        }
+
+        return Array.from(this.$el.childNodes)
+    }
+
+    remove(child) {
+        debugger
+        if(child instanceof DOM) {
+           child = child.$el
+        }
+
+        return this.$el.removeChild(child)
+    }
+
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback)
     }

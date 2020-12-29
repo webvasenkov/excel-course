@@ -8,10 +8,10 @@ const defaultState = {
     stylesState: {},
     currentText: '',
     tableName: defaultName,
-    currentStyles: defaultStyles
+    currentStyles: defaultStyles,
+    dateOpen: new Date().toJSON()
 }
 
-
-export const initialState = storage('excel-state')
-    ? storage('excel-state')
+export const initialState = param => storage(`excel:${param}`)
+    ? storage(`excel:${param}`)
     : defaultState

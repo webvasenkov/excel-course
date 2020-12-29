@@ -21,8 +21,12 @@ export class StoreSubscriber {
                     })
                 }
             })
-
             this.prevState = this.store.getState()
+
+            // debugger state
+            if (MODE_ON === 'development') {
+                window['redux'] = this.prevState
+            }
         })
     }
 
