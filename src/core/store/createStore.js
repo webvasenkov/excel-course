@@ -7,7 +7,7 @@ export function createStore(rootReducer, initialState = {}) {
 
         return {
             unsubscribe() {
-                subscribers = subscribers.forEach(sub => sub !== fn)
+                subscribers = subscribers.filter(sub => sub !== fn)
             }
         }
     }
