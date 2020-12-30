@@ -1,5 +1,5 @@
-import {ActiveRoute} from './ActiveRoute'
-import {$} from '@core/DOM'
+import {ActiveRoute} from './ActiveRoute.js'
+import {$} from '../DOM.js'
 
 export class Router {
     constructor(selector, routes) {
@@ -14,14 +14,12 @@ export class Router {
     init() {
         this.changePageHandler()
         window.addEventListener('hashchange', this.changePageHandler)
-
     }
 
     changePageHandler() {
         if (this.page) {
             this.page.destroy()
         }
-
 
         this.$placeholder.clear()
         const Page = ActiveRoute.path.includes('excel')
