@@ -6,6 +6,7 @@
 @import 'formula';
 @import 'table';
 @import "dashboard";
+@import "loader";
 
 * {
   margin: 0;
@@ -28,9 +29,21 @@ li {
   list-style: none;
 }
 
+#app {
+  height: 100vh
+}
+
 .excel {
   position: relative;
   color: $main-color;
   height: 100%;
   max-width: 100%;
 }
+
+.loader {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

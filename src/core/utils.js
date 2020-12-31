@@ -48,11 +48,15 @@ export function debounce(fn, wait) {
         clearTimeout(timeout)
         timeout = setTimeout(() => {
             clearTimeout(timeout)
-            fn(...args)
+            fn.apply(this, args)
         }, wait)
     }
 }
 
 export function preventDefault(e) {
     e.preventDefault()
+}
+
+export function storageKey(param) {
+    return `excel:${param}`
 }

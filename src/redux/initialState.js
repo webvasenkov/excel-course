@@ -12,6 +12,4 @@ const defaultState = {
     dateOpen: new Date().toJSON()
 }
 
-export const initialState = param => storage(`excel:${param}`)
-    ? storage(`excel:${param}`)
-    : defaultState
+export const initialState = state => state ? state : defaultState
